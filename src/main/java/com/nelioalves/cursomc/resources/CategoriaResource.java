@@ -26,4 +26,9 @@ public class CategoriaResource {
 		return ResponseEntity.ok(obj);
 	}
 	
+	/*
+	 * public ResponseEntity<?> save(){
+	 * 
+	 * }
+	 */
 }
