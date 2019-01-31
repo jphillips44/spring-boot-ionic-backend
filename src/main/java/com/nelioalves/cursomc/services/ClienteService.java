@@ -10,7 +10,7 @@ import com.nelioalves.cursomc.repositories.ClienteRepository;
 import com.nelioalves.cursomc.resources.exceptions.ObjectNotFoundException;
 
 @Service
-public class ClienteServico {
+public class ClienteService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
