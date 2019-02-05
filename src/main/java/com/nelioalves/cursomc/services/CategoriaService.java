@@ -24,8 +24,14 @@ public class CategoriaService {
 	
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
-		Categoria objCategoria = catRepo.save(obj);
-		return objCategoria;
+		return catRepo.save(obj);
+		
+		
+	}
+
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return catRepo.save(obj);
 		
 	}
 	
