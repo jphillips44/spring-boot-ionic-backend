@@ -34,7 +34,7 @@ public class ClienteService {
 	
 	public Cliente update(Cliente obj) {
 		Cliente newObj = find(obj.getId());
-		updateCliente(newObj, obj);
+		updateObj(newObj, obj);
 		return repository.save(newObj);
 		
 	}
@@ -64,7 +64,7 @@ public class ClienteService {
 		
 	}
 	
-	private void updateCliente(Cliente newObj, Cliente obj) {
+	private void updateObj(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());		
 	}

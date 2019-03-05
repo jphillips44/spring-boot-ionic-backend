@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.domain.Cliente;
+import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.dto.CategoriaDTO;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
 import com.nelioalves.cursomc.resources.exceptions.DataIntegrityException;
@@ -20,10 +22,10 @@ import com.nelioalves.cursomc.resources.exceptions.ObjectNotFoundException;
 public class CategoriaService {
 	
 	@Autowired
-	private CategoriaRepository catRepo;
+	private CategoriaRepository repository;
 
 	public Categoria find(Integer id) {
-		Optional<Categoria> objCategoria = catRepo.findById(id);
+		Optional<Categoria> objCategoria = repository.findById(id);
 		
 		return objCategoria.orElseThrow(() -> new ObjectNotFoundException(
 				"Categoria não encontrada! Id: " + id + ", Tipo: " + Categoria.class.getName()));
@@ -31,21 +33,22 @@ public class CategoriaService {
 	
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
-		return catRepo.save(obj);
+		return repository.save(obj);
 		
 		
 	}
 
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return catRepo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateObj(newObj, obj);
+		return repository.save(newObj);
 		
 	}
 
 	public void delete(Integer id) {
 		find(id);
 		try{
-			catRepo.deleteById(id);
+			repository.deleteById(id);
 		}catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possuí produtos");
 		}
@@ -53,17 +56,21 @@ public class CategoriaService {
     }
 	
 	public List<Categoria> findAll() {
-		return catRepo.findAll();
+		return repository.findAll();
 	}
 	
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String oderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction), oderBy);
-		return catRepo.findAll(pageRequest);
+		return repository.findAll(pageRequest);
 		
 	}
 	
 	public Categoria fromCategoriaDTO(CategoriaDTO objtDto) {
 		return new Categoria(objtDto.getId(), objtDto.getNome()); 
 		
+	}
+	
+	private void updateObj(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 }
