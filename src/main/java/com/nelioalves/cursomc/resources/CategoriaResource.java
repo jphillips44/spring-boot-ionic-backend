@@ -52,7 +52,8 @@ public class CategoriaResource {
 		Categoria obj = catServ.fromCategoriaDTO(objDto);
 		obj.setId(id);
 		obj = catServ.update(obj);
-		return ResponseEntity.noContent().build();
+		//return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 		
 	}
 	
